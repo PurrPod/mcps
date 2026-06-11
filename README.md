@@ -12,7 +12,7 @@
 purrcat install mcp playwright
 ```
 
-系统将自动下载对应的配置，并合并至您的本地 `.purrcat/mcp_config.json` 文件中。
+系统将自动下载对应的配置，并合并至您的本地 `.purrcat/mcp_config.json` 文件中，一些 MCP 工具或许需要您亲自修改配置，填写密钥等才可正常使用。
 
 ---
 
