@@ -47,7 +47,7 @@ mcps/
 <!-- OFFICIAL:START -->
 | 安装指令 (Install ID) | 名称 | 描述 | 作者 |
 | :--- | :--- | :--- | :--- |
-| *(虚位以待)* | - | 期待您的 PR！ | - |
+| `purrcat install mcp playwright` | [playwright](https://github.com/microsoft/playwright-mcp) | 浏览器自动化 MCP，提供网页截图、交互与测试能力。 | microsoft |
 <!-- OFFICIAL:END -->
 
 ### Community (社区扩展)
