@@ -1,0 +1,27 @@
+{
+  "version": "1.0",
+  "repository": "https://github.com/PurrPod/mcps",
+  "mcps": {
+    "playwright": {
+      "name": "playwright",
+      "description": "浏览器自动化 MCP，提供网页截图、交互与测试能力。",
+      "author": "microsoft",
+      "source_url": "https://github.com/microsoft/playwright-mcp",
+      "type": "official",
+      "tags": [
+        "browser",
+        "automation"
+      ],
+      "config": {
+        "command": "npx",
+        "args": [
+          "-y",
+          "@playwright/mcp@latest",
+          "--user-data-dir=agent_vm/.buffer/playwright",
+          "--output-dir=agent_vm/.buffer/screenshots"
+        ],
+        "env": {}
+      }
+    }
+  }
+}
