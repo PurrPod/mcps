@@ -1,6 +1,8 @@
-# PurrCat MCP Servers
+<h1 align="center">PurrCat MCP Servers</h1>
 
-专为 [PurrCat](https://github.com/PurrPod/purrcat) 构建的 Model Context Protocol (MCP) 服务器配置合集与注册表中心。
+<p align="center">
+    专为 <a href="https://github.com/PurrPod/purrcat">PurrCat</a> 构建的 Model Context Protocol (MCP) 服务器配置合集与注册表中心。
+</p>
 
 ---
 
@@ -12,7 +14,7 @@
 purrcat install mcp playwright
 ```
 
-系统将自动下载对应的配置，并合并至您的本地 `.purrcat/mcp_config.json` 文件中，一些 MCP 工具或许需要您亲自修改配置，填写密钥等才可正常使用。
+系统将自动下载对应的配置，并合并至您的本地 `.purrcat/mcp_config.json` 文件中。
 
 ---
 
@@ -42,16 +44,18 @@ mcps/
 *(注：本列表由自动化流水线实时生成，点击名称可访问源代码库)*
 
 ### Official (官方核心)
-
+<!-- OFFICIAL:START -->
 | 安装指令 (Install ID) | 名称 | 描述 | 作者 |
-| --- | --- | --- | --- |
-| *(自动化构建中...)* |  |  |  |
+| :--- | :--- | :--- | :--- |
+| *(虚位以待)* | - | 期待您的 PR！ | - |
+<!-- OFFICIAL:END -->
 
 ### Community (社区扩展)
-
+<!-- COMMUNITY:START -->
 | 安装指令 (Install ID) | 名称 | 描述 | 作者 |
-| --- | --- | --- | --- |
-| *(自动化构建中...)* |  |  |  |
+| :--- | :--- | :--- | :--- |
+| *(虚位以待)* | - | 期待您的 PR！ | - |
+<!-- COMMUNITY:END -->
 
 ---
 
@@ -85,9 +89,9 @@ mcps/
 
 ### 字段解析：
 
-- **`name`**: 必须与您创建的文件夹名称完全一致。也是用户用于安装的指令标识。
-- **`source_url`** (必填): 提供该 MCP 的开源代码库 URL（如 GitHub 链接），以便用户查阅说明文档与安全审阅代码。
-- **`config`** (核心配置): 其内部字段完全对齐官方的 MCP JSON 规范。其中 `command` 和 `args` 为必填项，`env` 为可选项（如需要 API Key 时预留空值即可，安装后 CLI 会智能提示用户补充）。
+* **`name`**: 必须与您创建的文件夹名称完全一致。也是用户用于安装的指令标识。
+* **`source_url`** (必填): 提供该 MCP 的开源代码库 URL（如 GitHub 链接），以便用户查阅说明文档与安全审阅代码。
+* **`config`** (核心配置): 其内部字段完全对齐官方的 MCP JSON 规范。其中 `command` 和 `args` 为必填项，`env` 为可选项（如需要 API Key 时预留空值即可，安装后 CLI 会智能提示用户补充）。
 
 ### 提交流程
 

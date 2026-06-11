@@ -89,28 +89,30 @@ def generate_markdown_table(mcps_dict, target_type):
     return "\n".join(lines) + "\n"
 
 def update_readme(registry_data):
-    """回写更新 README.md 中的表格"""
+    """回写更新 README.md 中的表格 (安全版)"""
     if not os.path.exists(README_FILE):
         return
 
     with open(README_FILE, 'r', encoding='utf-8') as f:
         content = f.read()
 
+    def replace_between_tags(text, start_tag, end_tag, new_content):
+        start_idx = text.find(start_tag)
+        end_idx = text.find(end_tag)
+        if start_idx != -1 and end_idx != -1 and start_idx < end_idx:
+            # 截取 start_tag 之前的内容（包含 start_tag）
+            head = text[:start_idx + len(start_tag)]
+            # 截取 end_tag 之后的内容（包含 end_tag）
+            tail = text[end_idx:]
+            # 安全拼接
+            return f"{head}\n{new_content}{tail}"
+        return text
+
     off_table = generate_markdown_table(registry_data["mcps"], "official")
-    content = re.sub(
-        r'(\n).*?(\n)',
-        f'\\g<1>{off_table}\\g<2>',
-        content,
-        flags=re.DOTALL
-    )
+    content = replace_between_tags(content, "<!-- OFFICIAL:START -->", "<!-- OFFICIAL:END -->", off_table)
 
     com_table = generate_markdown_table(registry_data["mcps"], "community")
-    content = re.sub(
-        r'(\n).*?(\n)',
-        f'\\g<1>{com_table}\\g<2>',
-        content,
-        flags=re.DOTALL
-    )
+    content = replace_between_tags(content, "<!-- COMMUNITY:START -->", "<!-- COMMUNITY:END -->", com_table)
 
     with open(README_FILE, 'w', encoding='utf-8') as f:
         f.write(content)
