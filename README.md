@@ -1,7 +1,7 @@
-<h1 align="center">PurrCat MCP Servers</h1>
+<h1 align="center">PurrCat MCP Market</h1>
 
 <p align="center">
-    专为 <a href="https://github.com/PurrPod/purrcat">PurrCat</a> 构建的 Model Context Protocol (MCP) 服务器配置合集与注册表中心。
+    专为 <a href="https://github.com/PurrPod/purrcat">PurrCat</a> 构建的 Model Context Protocol (MCP) 服务器市场与注册表中心。
 </p>
 
 ---
@@ -27,15 +27,17 @@ mcps/
 ├── registry.json        # 全局注册表 (由 Action 自动生成)
 ├── README.md            # 说明文档与 MCP 列表 (由 Action 自动更新)
 │
-├── official/            # 官方核心 MCP
-│   └── playwright/
-│       └── mcp.json     # 核心配置文件
+├── mcps/                # 官方 MCP (源码直接在本仓库维护，不接收外部 PR)
+│   └── <mcp-name>/
+│       ├── mcp.json     # 元数据 (统一字段规范)
+│       └── ...          # MCP 源代码
 │
-└── community/           # 社区扩展 MCP
-    └── sqlite/
-        └── mcp.json
-
+└── external/            # 外部 MCP (仅通过单个 JSON 收录，不存放源码)
+    └── <mcp-name>.json
 ```
+
+* **官方 MCP (`mcps/`)**: 由我们直接在本仓库内维护源代码与配置，不接收外部贡献者的源码 PR。
+* **外部 MCP (`external/`)**: 第三方 MCP 仅需提交一个 `<mcp-name>.json` 元数据文件即可收录，源代码仍保留在原仓库。
 
 ---
 
@@ -43,56 +45,59 @@ mcps/
 
 *(注：本列表由自动化流水线实时生成，点击名称可访问源代码库)*
 
-### Official (官方核心)
+### Official (官方维护)
 <!-- OFFICIAL:START -->
-| 安装指令 (Install ID) | 名称 | 描述 | 作者 |
-| :--- | :--- | :--- | :--- |
-| *(虚位以待)* | - | 期待您的 PR！ | - |
+| 安装指令 (Install ID) | 名称 | 描述 |
+| :--- | :--- | :--- |
+| *(虚位以待)* | - | 期待您的收录！ |
 <!-- OFFICIAL:END -->
 
-### Community (社区扩展)
-<!-- COMMUNITY:START -->
-| 安装指令 (Install ID) | 名称 | 描述 | 作者 |
-| :--- | :--- | :--- | :--- |
-| *(虚位以待)* | - | 期待您的 PR！ | - |
-<!-- COMMUNITY:END -->
+### External (外部收录)
+<!-- EXTERNAL:START -->
+| 安装指令 (Install ID) | 名称 | 描述 |
+| :--- | :--- | :--- |
+| `purrcat install mcp playwright` | [playwright](https://github.com/microsoft/playwright-mcp) | 浏览器自动化 MCP，提供网页截图、交互与测试能力。 |
+<!-- EXTERNAL:END -->
 
 ---
 
-## 4. 贡献指南 (提交 MCP 配置)
+## 4. 统一字段规范
 
-本仓库负责管理 MCP 的连接配置索引。提交前，请在 `community/` 下创建与您 MCP 短名一致的目录，并在其中提供标准的 `mcp.json` 文件。
-
-### 规范的 `mcp.json` 格式说明
-
-您的配置文件必须严格遵循如下规范，包括基础的展示元信息（metadata），以及控制 Agent 连接行为的 `config` 块。
+无论是官方 MCP (`mcps/<mcp-name>/mcp.json`) 还是外部 MCP (`external/<mcp-name>.json`)，均使用完全相同的字段规范：
 
 ```json
 {
   "name": "playwright",
-  "description": "浏览器自动化 MCP，提供网页截图、交互与测试能力。",
-  "author": "Playwright Team",
-  "source_url": "https://github.com/playwright-community/mcp-server",
-  "tags": ["browser", "automation"],
-  "config": {
-    "command": "npx",
-    "args": [
-      "-y",
-      "@playwright/mcp@latest",
-      "--user-data-dir=agent_vm/.buffer/playwright",
-      "--output-dir=agent_vm/.buffer/screenshots"
-    ],
-    "env": {}
+  "desc": "浏览器自动化 MCP，提供网页截图、交互与测试能力。",
+  "icon-link": "https://avatars.githubusercontent.com/microsoft?s=200",
+  "repo": "https://github.com/microsoft/playwright-mcp",
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    }
   }
 }
 ```
 
-### 字段解析：
+### 字段解析
 
-* **`name`**: 必须与您创建的文件夹名称完全一致。也是用户用于安装的指令标识。
-* **`source_url`** (必填): 提供该 MCP 的开源代码库 URL（如 GitHub 链接），以便用户查阅说明文档与安全审阅代码。
-* **`config`** (核心配置): 其内部字段完全对齐官方的 MCP JSON 规范。其中 `command` 和 `args` 为必填项，`env` 为可选项（如需要 API Key 时预留空值即可，安装后 CLI 会智能提示用户补充）。
+* **`name`** (必填): 安装标识，必须与目录名或 JSON 文件名完全一致，也是用户用于安装的指令标识。
+* **`desc`** (必填): 一句话描述该 MCP 的用途。
+* **`icon-link`** (必填): 图标链接，用于市场展示。
+* **`repo`** (必填): 源码仓库链接。外部 MCP 指向其原始仓库；官方 MCP 指向本仓库内对应目录。
+* **`mcpServers`** (必填): MCP 安装配置，必须包含与 `name` 同名的键，内部字段对齐官方 MCP JSON 规范。stdio 型提供 `command` + `args`（`env` 可选）；远程型提供 `url` 即可。
 
-### 提交流程
+CI 构建时会自动校验以上字段，并将 `mcps/` 与 `external/` 中的所有条目整理为统一的 `registry.json`。
 
-创建完毕后，提交 Pull Request。我们的 CI 脚本将自动检验名称一致性、URL 是否合法以及 `config` 结构是否完整。检验通过合并后，列表与注册表均将全自动更新。
+---
+
+## 5. 收录方式
+
+### 外部 MCP
+
+在 `external/` 目录下新建 `<mcp-name>.json`（内容遵循上述统一字段规范），提交 Pull Request。CI 校验通过并合并后，列表与注册表将全自动更新。
+
+### 官方 MCP
+
+`mcps/` 目录由维护者直接提交，每个 MCP 目录需包含 `mcp.json` 元数据与完整源代码，不接收外部 PR。

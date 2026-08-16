@@ -1,143 +1,218 @@
 #!/usr/bin/env python3
-import os
+"""构建 registry.json 并同步 README.md
+
+目录约定:
+  mcps/<mcp-name>/mcp.json   官方 MCP (源码在本仓库维护)
+  external/<mcp-name>.json   外部 MCP (仅收录元数据)
+
+统一字段: name / desc / icon-link / repo / mcpServers
+"""
 import json
-import re
+import os
 import sys
 
 REGISTRY_FILE = "registry.json"
 README_FILE = "README.md"
+REPO_URL = "https://github.com/PurrPod/mcps"
 
-def parse_mcp_json(filepath):
-    """解析并读取 mcp.json"""
-    if not os.path.exists(filepath):
-        return None
+OFFICIAL_DIR = "mcps"
+EXTERNAL_DIR = "external"
+
+REQUIRED_FIELDS = ("name", "desc", "icon-link", "repo", "mcpServers")
+
+
+def fail(msg):
+    print(f"[Error] {msg}")
+    sys.exit(1)
+
+
+def load_json(filepath):
     try:
-        with open(filepath, 'r', encoding='utf-8') as f:
+        with open(filepath, "r", encoding="utf-8") as f:
             return json.load(f)
-    except json.JSONDecodeError as e:
-        print(f"[Error] 解析 JSON 失败 {filepath}: {e}")
-        return None
+    except (OSError, json.JSONDecodeError) as e:
+        fail(f"无法读取或解析 {filepath}: {e}")
 
-def scan_directory(base_dir, mcp_type):
-    """扫描指定目录下的所有 MCP 配置"""
-    mcps = {}
-    if not os.path.exists(base_dir):
-        return mcps
 
-    for item in sorted(os.listdir(base_dir)):
-        mcp_dir = os.path.join(base_dir, item)
-        if os.path.isdir(mcp_dir) and not item.startswith('.'):
-            mcp_file = os.path.join(mcp_dir, 'mcp.json')
-            meta = parse_mcp_json(mcp_file)
+def validate_entry(filepath, entry, expected_name):
+    """校验单个 MCP 条目 (官方与外部共用同一套字段规范)"""
+    if not isinstance(entry, dict):
+        fail(f"[{filepath}] 内容必须是一个 JSON 对象")
 
-            if not meta:
-                print(f"[Error] 缺失或无法读取: {mcp_file}")
-                sys.exit(1)
+    for field in REQUIRED_FIELDS:
+        if field not in entry:
+            fail(f"[{filepath}] 缺少必填字段 '{field}'")
 
-            mcp_name = meta.get("name", "").strip()
+    # 校验 1: name 必须与目录/文件名一致
+    name = str(entry.get("name", "")).strip()
+    if not name:
+        fail(f"[{filepath}] 'name' 不能为空")
+    if name != expected_name:
+        fail(f"[{filepath}] 'name' ('{name}') 必须与目录/文件名 ('{expected_name}') 一致")
 
-            # 严格校验 1: 名称必须与文件夹一致
-            if mcp_name != item:
-                print(f"[Error] 校验失败: 目录 [{mcp_dir}] 与其内部 mcp.json 的 name 字段 ('{mcp_name}') 不一致！")
-                sys.exit(1)
+    # 校验 2: desc 不能为空
+    if not str(entry.get("desc", "")).strip():
+        fail(f"[{filepath}] 'desc' 不能为空")
 
-            # 严格校验 2: 必须包含 source_url 方便用户查阅源码
-            source_url = meta.get("source_url", "").strip()
-            if not source_url or not source_url.startswith("http"):
-                print(f"[Error] 校验失败: [{mcp_file}] 必须包含有效的 'source_url' 字段，指向其开源仓库或文档说明！")
-                sys.exit(1)
+    # 校验 3: icon-link / repo 必须是合法链接
+    for field in ("icon-link", "repo"):
+        value = str(entry.get(field, "")).strip()
+        if not value.startswith("http"):
+            fail(f"[{filepath}] '{field}' 必须是合法的 http(s) 链接")
 
-            # 严格校验 3: 必须包含合法的 config
-            config = meta.get("config", {})
-            if not isinstance(config, dict) or "command" not in config or "args" not in config:
-                print(f"[Error] 校验失败: [{mcp_file}] 的 'config' 字段必须包含标准的 'command' 和 'args'！")
-                sys.exit(1)
+    # 校验 4: mcpServers 必须包含与 name 同名的键，且具备可用的安装配置
+    mcp_servers = entry.get("mcpServers")
+    if not isinstance(mcp_servers, dict) or name not in mcp_servers:
+        fail(f"[{filepath}] 'mcpServers' 必须是一个对象，且包含键 '{name}'")
 
-            mcps[item] = {
-                "name": mcp_name,
-                "description": meta.get("description", "暂无描述"),
-                "author": meta.get("author", "PurrCat Contributor"),
-                "source_url": source_url,
-                "type": mcp_type,
-                "tags": meta.get("tags", []),
-                "config": config
-            }
-    return mcps
+    target = mcp_servers[name]
+    if not isinstance(target, dict):
+        fail(f"[{filepath}] 'mcpServers.{name}' 必须是一个对象")
 
-def generate_markdown_table(mcps_dict, target_type):
+    has_command = isinstance(target.get("command"), str) and target["command"].strip()
+    has_url = isinstance(target.get("url"), str) and target["url"].strip()
+
+    if has_command:
+        if not isinstance(target.get("args"), list):
+            fail(f"[{filepath}] 使用 'mcpServers.{name}.command' 时必须同时提供数组类型的 'args'")
+    elif not has_url:
+        fail(f"[{filepath}] 'mcpServers.{name}' 必须包含 'command'+'args' (stdio 型) 或 'url' (远程型) 配置")
+
+
+def normalize(entry):
+    """输出为统一的注册表条目，仅保留约定的字段"""
+    return {
+        "name": entry["name"],
+        "desc": entry["desc"],
+        "icon-link": entry["icon-link"],
+        "repo": entry["repo"],
+        "mcpServers": entry["mcpServers"],
+    }
+
+
+def scan_official():
+    """扫描 mcps/ 下的官方 MCP 目录"""
+    entries = []
+    if not os.path.isdir(OFFICIAL_DIR):
+        return entries
+
+    for item in sorted(os.listdir(OFFICIAL_DIR)):
+        mcp_dir = os.path.join(OFFICIAL_DIR, item)
+        if item.startswith(".") or not os.path.isdir(mcp_dir):
+            continue
+
+        meta_file = os.path.join(mcp_dir, "mcp.json")
+        if not os.path.isfile(meta_file):
+            fail(f"官方 MCP 目录缺失元数据文件: {meta_file}")
+
+        entry = load_json(meta_file)
+        validate_entry(meta_file, entry, item)
+        entries.append((item, normalize(entry)))
+    return entries
+
+
+def scan_external():
+    """扫描 external/ 下的外部 MCP JSON 文件"""
+    entries = []
+    if not os.path.isdir(EXTERNAL_DIR):
+        return entries
+
+    for item in sorted(os.listdir(EXTERNAL_DIR)):
+        if item.startswith(".") or not item.endswith(".json"):
+            continue
+
+        meta_file = os.path.join(EXTERNAL_DIR, item)
+        expected_name = item[: -len(".json")]
+
+        entry = load_json(meta_file)
+        validate_entry(meta_file, entry, expected_name)
+        entries.append((expected_name, normalize(entry)))
+    return entries
+
+
+def generate_markdown_table(entries):
     """生成 Markdown 格式表格"""
     lines = [
-        "| 安装指令 (Install ID) | 名称 | 描述 | 作者 |",
-        "| :--- | :--- | :--- | :--- |"
+        "| 安装指令 (Install ID) | 名称 | 描述 |",
+        "| :--- | :--- | :--- |",
     ]
 
-    count = 0
-    for short_id, info in sorted(mcps_dict.items()):
-        if info.get("type") == target_type:
-            name = info.get("name", short_id)
-            desc = info.get("description", "-")
-            author = info.get("author", "-")
-            url = info.get("source_url", "#")
+    if not entries:
+        lines.append("| *(虚位以待)* | - | 期待您的收录！ |")
+        return "\n".join(lines) + "\n"
 
-            # 将名称直接作为超链接，去掉多余的链接列
-            lines.append(f"| `purrcat install mcp {short_id}` | [{name}]({url}) | {desc} | {author} |")
-            count += 1
-
-    if count == 0:
-        lines.append("| *(虚位以待)* | - | 期待您的 PR！ | - |")
+    for short_id, info in sorted(entries):
+        name = info["name"]
+        desc = str(info["desc"]).replace("|", "\\|")
+        repo = info["repo"]
+        lines.append(f"| `purrcat install mcp {short_id}` | [{name}]({repo}) | {desc} |")
 
     return "\n".join(lines) + "\n"
 
-def update_readme(registry_data):
-    """回写更新 README.md 中的表格 (安全版)"""
+
+def replace_between_tags(text, start_tag, end_tag, new_content):
+    """将文本中 start_tag 与 end_tag 之间的内容替换为 new_content"""
+    start_idx = text.find(start_tag)
+    end_idx = text.find(end_tag)
+    if start_idx != -1 and end_idx != -1 and start_idx < end_idx:
+        head = text[: start_idx + len(start_tag)]
+        tail = text[end_idx:]
+        return f"{head}\n{new_content}{tail}"
+    return text
+
+
+def update_readme(official, external):
+    """回写更新 README.md 中的表格"""
     if not os.path.exists(README_FILE):
         return
 
-    with open(README_FILE, 'r', encoding='utf-8') as f:
+    with open(README_FILE, "r", encoding="utf-8") as f:
         content = f.read()
 
-    def replace_between_tags(text, start_tag, end_tag, new_content):
-        start_idx = text.find(start_tag)
-        end_idx = text.find(end_tag)
-        if start_idx != -1 and end_idx != -1 and start_idx < end_idx:
-            # 截取 start_tag 之前的内容（包含 start_tag）
-            head = text[:start_idx + len(start_tag)]
-            # 截取 end_tag 之后的内容（包含 end_tag）
-            tail = text[end_idx:]
-            # 安全拼接
-            return f"{head}\n{new_content}{tail}"
-        return text
+    content = replace_between_tags(
+        content, "<!-- OFFICIAL:START -->", "<!-- OFFICIAL:END -->",
+        generate_markdown_table(official),
+    )
+    content = replace_between_tags(
+        content, "<!-- EXTERNAL:START -->", "<!-- EXTERNAL:END -->",
+        generate_markdown_table(external),
+    )
 
-    off_table = generate_markdown_table(registry_data["mcps"], "official")
-    content = replace_between_tags(content, "<!-- OFFICIAL:START -->", "<!-- OFFICIAL:END -->", off_table)
-
-    com_table = generate_markdown_table(registry_data["mcps"], "community")
-    content = replace_between_tags(content, "<!-- COMMUNITY:START -->", "<!-- COMMUNITY:END -->", com_table)
-
-    with open(README_FILE, 'w', encoding='utf-8') as f:
+    with open(README_FILE, "w", encoding="utf-8") as f:
         f.write(content)
 
-def main():
-    print("开始扫描本地目录...")
-    official_mcps = scan_directory("official", "official")
-    community_mcps = scan_directory("community", "community")
 
-    all_mcps = {**official_mcps, **community_mcps}
+def main():
+    print("扫描官方 MCP (mcps/) ...")
+    official = scan_official()
+
+    print("扫描外部 MCP (external/) ...")
+    external = scan_external()
+
+    # 校验 5: 官方与外部不允许同名 MCP
+    all_names = [name for name, _ in official] + [name for name, _ in external]
+    duplicates = sorted({n for n in all_names if all_names.count(n) > 1})
+    if duplicates:
+        fail(f"官方与外部目录存在同名 MCP: {', '.join(duplicates)}")
+
+    merged = sorted([*official, *external], key=lambda pair: pair[0])
 
     registry = {
-        "version": "1.0",
-        "repository": "https://github.com/PurrPod/mcps",
-        "mcps": all_mcps
+        "version": "2.0",
+        "repository": REPO_URL,
+        "mcps": [info for _, info in merged],
     }
 
-    print("生成 registry.json...")
-    with open(REGISTRY_FILE, 'w', encoding='utf-8') as f:
+    print(f"生成 {REGISTRY_FILE} ...")
+    with open(REGISTRY_FILE, "w", encoding="utf-8") as f:
         json.dump(registry, f, indent=2, ensure_ascii=False)
+        f.write("\n")
 
-    print("更新 README.md...")
-    update_readme(registry)
+    print("更新 README.md ...")
+    update_readme(official, external)
 
-    print("构建与校验完成！")
+    print(f"构建与校验完成！官方 {len(official)} 个，外部 {len(external)} 个，共 {len(registry['mcps'])} 条。")
+
 
 if __name__ == "__main__":
     main()
