@@ -5,7 +5,7 @@
     {
       "name": "chrome-devtools",
       "desc": "Chrome DevTools MCP，提供网页性能分析、调试与自动化诊断能力。",
-      "icon-link": "https://avatars.githubusercontent.com/ChromeDevTools?s=200",
+      "icon-link": "https://avatars.githubusercontent.com/ChromeDevTools",
       "repo": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
       "mcpServers": {
         "chrome-devtools": {
@@ -20,7 +20,7 @@
     {
       "name": "markitdown",
       "desc": "MarkItDown MCP，将 Office/PDF/HTML 等多种文件转换为 Markdown 文本。",
-      "icon-link": "https://avatars.githubusercontent.com/microsoft?s=200",
+      "icon-link": "https://avatars.githubusercontent.com/microsoft",
       "repo": "https://github.com/microsoft/markitdown",
       "mcpServers": {
         "markitdown": {
@@ -34,7 +34,7 @@
     {
       "name": "playwright",
       "desc": "浏览器自动化 MCP，提供网页截图、交互与测试能力。",
-      "icon-link": "https://avatars.githubusercontent.com/microsoft?s=200",
+      "icon-link": "https://avatars.githubusercontent.com/microsoft",
       "repo": "https://github.com/microsoft/playwright-mcp",
       "mcpServers": {
         "playwright": {
@@ -48,7 +48,7 @@
     {
       "name": "tavily-remote-mcp",
       "desc": "Tavily 搜索 MCP（远程版），为 AI 提供联网搜索与深度研究 API 能力。安装后需将 <your-api-key> 替换为你的 Tavily API Key。",
-      "icon-link": "https://avatars.githubusercontent.com/tavily-ai?s=200",
+      "icon-link": "https://avatars.githubusercontent.com/tavily-ai",
       "repo": "https://github.com/tavily-ai/tavily-mcp",
       "mcpServers": {
         "tavily-remote-mcp": {
