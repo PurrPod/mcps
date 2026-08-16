@@ -1,7 +1,7 @@
 {
   "name": "chrome-devtools",
   "desc": "Chrome DevTools MCP，提供网页性能分析、调试与自动化诊断能力。",
-  "icon-link": "https://avatars.githubusercontent.com/ChromeDevTools?s=200",
+  "icon-link": "https://avatars.githubusercontent.com/ChromeDevTools",
   "repo": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
   "mcpServers": {
     "chrome-devtools": {

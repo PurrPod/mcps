@@ -1,7 +1,7 @@
 {
   "name": "playwright",
   "desc": "浏览器自动化 MCP，提供网页截图、交互与测试能力。",
-  "icon-link": "https://avatars.githubusercontent.com/microsoft?s=200",
+  "icon-link": "https://avatars.githubusercontent.com/microsoft",
   "repo": "https://github.com/microsoft/playwright-mcp",
   "mcpServers": {
     "playwright": {

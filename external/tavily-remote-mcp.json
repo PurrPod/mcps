@@ -1,7 +1,7 @@
 {
   "name": "tavily-remote-mcp",
   "desc": "Tavily 搜索 MCP（远程版），为 AI 提供联网搜索与深度研究 API 能力。安装后需将 <your-api-key> 替换为你的 Tavily API Key。",
-  "icon-link": "https://avatars.githubusercontent.com/tavily-ai?s=200",
+  "icon-link": "https://avatars.githubusercontent.com/tavily-ai",
   "repo": "https://github.com/tavily-ai/tavily-mcp",
   "mcpServers": {
     "tavily-remote-mcp": {
