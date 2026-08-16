@@ -56,7 +56,10 @@ mcps/
 <!-- EXTERNAL:START -->
 | 安装指令 (Install ID) | 名称 | 描述 |
 | :--- | :--- | :--- |
+| `purrcat install mcp chrome-devtools` | [chrome-devtools](https://github.com/ChromeDevTools/chrome-devtools-mcp) | Chrome DevTools MCP，提供网页性能分析、调试与自动化诊断能力。 |
+| `purrcat install mcp markitdown` | [markitdown](https://github.com/microsoft/markitdown) | MarkItDown MCP，将 Office/PDF/HTML 等多种文件转换为 Markdown 文本。 |
 | `purrcat install mcp playwright` | [playwright](https://github.com/microsoft/playwright-mcp) | 浏览器自动化 MCP，提供网页截图、交互与测试能力。 |
+| `purrcat install mcp tavily-remote-mcp` | [tavily-remote-mcp](https://github.com/tavily-ai/tavily-mcp) | Tavily 搜索 MCP（远程版），为 AI 提供联网搜索与深度研究 API 能力。安装后需将 <your-api-key> 替换为你的 Tavily API Key。 |
 <!-- EXTERNAL:END -->
 
 ---

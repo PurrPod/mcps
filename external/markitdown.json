@@ -1,0 +1,12 @@
+{
+  "name": "markitdown",
+  "desc": "MarkItDown MCP，将 Office/PDF/HTML 等多种文件转换为 Markdown 文本。",
+  "icon-link": "https://avatars.githubusercontent.com/microsoft?s=200",
+  "repo": "https://github.com/microsoft/markitdown",
+  "mcpServers": {
+    "markitdown": {
+      "command": "uvx",
+      "args": ["markitdown-mcp@0.0.1a4"]
+    }
+  }
+}
