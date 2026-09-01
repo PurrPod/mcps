@@ -61,6 +61,24 @@
           "env": {}
         }
       }
+    },
+    {
+      "name": "tdx",
+      "desc": "通达信（TDX）行情数据 MCP，直连通达信行情服务器，提供 A 股实时行情、K 线、分时、排行榜、F10 与技术指标等工具。",
+      "icon-link": "https://avatars.githubusercontent.com/LisonEvf",
+      "repo": "https://github.com/LisonEvf/tdx_mcp",
+      "mcpServers": {
+        "tdx": {
+          "command": "uvx",
+          "args": [
+            "--with",
+            "mcp<2",
+            "--from",
+            "tdx-mcp",
+            "tdx-mcp"
+          ]
+        }
+      }
     }
   ]
 }

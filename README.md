@@ -60,6 +60,7 @@ mcps/
 | `purrcat install mcp markitdown` | [markitdown](https://github.com/microsoft/markitdown) | MarkItDown MCP，将 Office/PDF/HTML 等多种文件转换为 Markdown 文本。 |
 | `purrcat install mcp playwright` | [playwright](https://github.com/microsoft/playwright-mcp) | 浏览器自动化 MCP，提供网页截图、交互与测试能力。 |
 | `purrcat install mcp tavily-remote-mcp` | [tavily-remote-mcp](https://github.com/tavily-ai/tavily-mcp) | Tavily 搜索 MCP（远程版），为 AI 提供联网搜索与深度研究 API 能力。安装后需将 <your-api-key> 替换为你的 Tavily API Key。 |
+| `purrcat install mcp tdx` | [tdx](https://github.com/LisonEvf/tdx_mcp) | 通达信（TDX）行情数据 MCP，直连通达信行情服务器，提供 A 股实时行情、K 线、分时、排行榜、F10 与技术指标等工具。 |
 <!-- EXTERNAL:END -->
 
 ---
