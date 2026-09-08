@@ -143,7 +143,7 @@ def generate_markdown_table(entries):
 
     for short_id, info in sorted(entries):
         name = info["name"]
-        desc = str(info["desc"]).replace("|", "\\|")
+        desc = str(info["desc"]).replace("\n", "<br>").replace("|", "\\|")
         repo = info["repo"]
         lines.append(f"| `purrcat install mcp {short_id}` | [{name}]({repo}) | {desc} |")
 
