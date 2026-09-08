@@ -4,7 +4,7 @@
   "mcps": [
     {
       "name": "blender",
-      "desc": "Blender 3D MCP，让任意 LLM 通过自然语言驱动 Blender 完成 3D 建模、场景创建与操控。安装 MCP 之后还需安装 Blender 插件：\n\nInstall the Blender addon\n\nRun the install command, then enable the addon inside Blender.\nuvx blender-mcp install-addon\nAfter installation, open Blender and enable the addon:\nGo to Edit → Preferences → Add-ons\nSearch for Interface: Blender MCP\nCheck the box to enable it\nConnect and start the server\n\nIn Blender, press N in the 3D viewport to open the sidebar.\nSelect the BlenderMCP tab\nClick Start MCP Server\nThe server listens on localhost:9876 by default. You can override this with the BLENDER_HOST and BLENDER_PORT environment variables.",
+      "desc": "Blender 3D 建模 MCP，让任意 LLM 通过自然语言驱动 Blender 完成建模、场景创建与操控。安装后还需启用 Blender 插件：uvx blender-mcp install-addon，在 Edit → Preferences → Add-ons 勾选 Interface: Blender MCP，再到 3D 视口按 N 打开侧栏，BlenderMCP 标签页点击 Start MCP Server（默认 localhost:9876）。",
       "icon-link": "https://avatars.githubusercontent.com/ahujasid",
       "repo": "https://github.com/ahujasid/blender-mcp",
       "mcpServers": {
