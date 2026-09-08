@@ -56,6 +56,7 @@ mcps/
 <!-- EXTERNAL:START -->
 | 安装指令 (Install ID) | 名称 | 描述 |
 | :--- | :--- | :--- |
+| `purrcat install mcp blender` | [blender](https://github.com/ahujasid/blender-mcp) | Blender 3D MCP，让任意 LLM 通过自然语言驱动 Blender 完成 3D 建模、场景创建与操控。安装 MCP 之后还需安装 Blender 插件：<br><br>Install the Blender addon<br><br>Run the install command, then enable the addon inside Blender.<br>uvx blender-mcp install-addon<br>After installation, open Blender and enable the addon:<br>Go to Edit → Preferences → Add-ons<br>Search for Interface: Blender MCP<br>Check the box to enable it<br>Connect and start the server<br><br>In Blender, press N in the 3D viewport to open the sidebar.<br>Select the BlenderMCP tab<br>Click Start MCP Server<br>The server listens on localhost:9876 by default. You can override this with the BLENDER_HOST and BLENDER_PORT environment variables. |
 | `purrcat install mcp chrome-devtools` | [chrome-devtools](https://github.com/ChromeDevTools/chrome-devtools-mcp) | Chrome DevTools MCP，提供网页性能分析、调试与自动化诊断能力。 |
 | `purrcat install mcp markitdown` | [markitdown](https://github.com/microsoft/markitdown) | MarkItDown MCP，将 Office/PDF/HTML 等多种文件转换为 Markdown 文本。 |
 | `purrcat install mcp playwright` | [playwright](https://github.com/microsoft/playwright-mcp) | 浏览器自动化 MCP，提供网页截图、交互与测试能力。 |
