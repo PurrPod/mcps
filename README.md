@@ -73,7 +73,8 @@ mcps/
 ```json
 {
   "name": "playwright",
-  "desc": "浏览器自动化 MCP，提供网页截图、交互与测试能力。",
+  "desc": "Browser automation MCP that provides web page screenshot, interaction, and testing capabilities.",
+  "desc-zh": "浏览器自动化 MCP，提供网页截图、交互与测试能力。",
   "icon-link": "https://avatars.githubusercontent.com/microsoft?s=200",
   "repo": "https://github.com/microsoft/playwright-mcp",
   "mcpServers": {
@@ -88,7 +89,8 @@ mcps/
 ### 字段解析
 
 * **`name`** (必填): 安装标识，必须与目录名或 JSON 文件名完全一致，也是用户用于安装的指令标识。
-* **`desc`** (必填): 一句话描述该 MCP 的用途。
+* **`desc`** (必填): 英文描述，一句话描述该 MCP 的用途。
+* **`desc-zh`** (必填): 中文描述，用于市场中文展示。
 * **`icon-link`** (必填): 图标链接，用于市场展示。
 * **`repo`** (必填): 源码仓库链接。外部 MCP 指向其原始仓库；官方 MCP 指向本仓库内对应目录。
 * **`mcpServers`** (必填): MCP 安装配置，必须包含与 `name` 同名的键，内部字段对齐官方 MCP JSON 规范。stdio 型提供 `command` + `args`（`env` 可选）；远程型提供 `url` 即可。

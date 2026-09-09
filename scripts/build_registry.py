@@ -5,7 +5,7 @@
   mcps/<mcp-name>/mcp.json   官方 MCP (源码在本仓库维护)
   external/<mcp-name>.json   外部 MCP (仅收录元数据)
 
-统一字段: name / desc / icon-link / repo / mcpServers
+统一字段: name / desc (英文) / desc-zh (中文) / icon-link / repo / mcpServers
 """
 import json
 import os
@@ -18,7 +18,7 @@ REPO_URL = "https://github.com/PurrPod/mcps"
 OFFICIAL_DIR = "mcps"
 EXTERNAL_DIR = "external"
 
-REQUIRED_FIELDS = ("name", "desc", "icon-link", "repo", "mcpServers")
+REQUIRED_FIELDS = ("name", "desc", "desc-zh", "icon-link", "repo", "mcpServers")
 
 
 def fail(msg):
@@ -50,9 +50,11 @@ def validate_entry(filepath, entry, expected_name):
     if name != expected_name:
         fail(f"[{filepath}] 'name' ('{name}') 必须与目录/文件名 ('{expected_name}') 一致")
 
-    # 校验 2: desc 不能为空
+    # 校验 2: desc / desc-zh 不能为空
     if not str(entry.get("desc", "")).strip():
         fail(f"[{filepath}] 'desc' 不能为空")
+    if not str(entry.get("desc-zh", "")).strip():
+        fail(f"[{filepath}] 'desc-zh' 不能为空")
 
     # 校验 3: icon-link / repo 必须是合法链接
     for field in ("icon-link", "repo"):
@@ -84,6 +86,7 @@ def normalize(entry):
     return {
         "name": entry["name"],
         "desc": entry["desc"],
+        "desc-zh": entry["desc-zh"],
         "icon-link": entry["icon-link"],
         "repo": entry["repo"],
         "mcpServers": entry["mcpServers"],
@@ -143,7 +146,7 @@ def generate_markdown_table(entries):
 
     for short_id, info in sorted(entries):
         name = info["name"]
-        desc = str(info["desc"]).replace("\n", "<br>").replace("|", "\\|")
+        desc = str(info["desc-zh"]).replace("\n", "<br>").replace("|", "\\|")
         repo = info["repo"]
         lines.append(f"| `purrcat install mcp {short_id}` | [{name}]({repo}) | {desc} |")
 

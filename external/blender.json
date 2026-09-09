@@ -1,6 +1,7 @@
 {
   "name": "blender",
-  "desc": "Blender 3D 建模 MCP，让任意 LLM 通过自然语言驱动 Blender 完成建模、场景创建与操控。安装后还需启用 Blender 插件：uvx blender-mcp install-addon，在 Edit → Preferences → Add-ons 勾选 Interface: Blender MCP，再到 3D 视口按 N 打开侧栏，BlenderMCP 标签页点击 Start MCP Server（默认 localhost:9876）。",
+  "desc": "Blender 3D modeling MCP that lets any LLM drive Blender via natural language for modeling, scene creation, and manipulation. After installation you must also enable the Blender add-on: run 'uvx blender-mcp install-addon', check \"Interface: Blender MCP\" under Edit → Preferences → Add-ons, then press N in the 3D viewport to open the sidebar and click \"Start MCP Server\" in the BlenderMCP tab (defaults to localhost:9876).",
+  "desc-zh": "Blender 3D 建模 MCP，让任意 LLM 通过自然语言驱动 Blender 完成建模、场景创建与操控。安装后还需启用 Blender 插件：uvx blender-mcp install-addon，在 Edit → Preferences → Add-ons 勾选 Interface: Blender MCP，再到 3D 视口按 N 打开侧栏，BlenderMCP 标签页点击 Start MCP Server（默认 localhost:9876）。",
   "icon-link": "https://avatars.githubusercontent.com/ahujasid",
   "repo": "https://github.com/ahujasid/blender-mcp",
   "mcpServers": {

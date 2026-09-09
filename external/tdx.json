@@ -1,6 +1,7 @@
 {
   "name": "tdx",
-  "desc": "通达信（TDX）行情数据 MCP，直连通达信行情服务器，提供 A 股实时行情、K 线、分时、排行榜、F10 与技术指标等工具。",
+  "desc": "TDX (Tongdaxin) market data MCP that connects directly to TDX quote servers, offering A-share real-time quotes, K-line, intraday, rankings, F10, technical indicators, and more.",
+  "desc-zh": "通达信（TDX）行情数据 MCP，直连通达信行情服务器，提供 A 股实时行情、K 线、分时、排行榜、F10 与技术指标等工具。",
   "icon-link": "https://avatars.githubusercontent.com/LisonEvf",
   "repo": "https://github.com/LisonEvf/tdx_mcp",
   "mcpServers": {

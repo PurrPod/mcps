@@ -4,7 +4,8 @@
   "mcps": [
     {
       "name": "blender",
-      "desc": "Blender 3D 建模 MCP，让任意 LLM 通过自然语言驱动 Blender 完成建模、场景创建与操控。安装后还需启用 Blender 插件：uvx blender-mcp install-addon，在 Edit → Preferences → Add-ons 勾选 Interface: Blender MCP，再到 3D 视口按 N 打开侧栏，BlenderMCP 标签页点击 Start MCP Server（默认 localhost:9876）。",
+      "desc": "Blender 3D modeling MCP that lets any LLM drive Blender via natural language for modeling, scene creation, and manipulation. After installation you must also enable the Blender add-on: run 'uvx blender-mcp install-addon', check \"Interface: Blender MCP\" under Edit → Preferences → Add-ons, then press N in the 3D viewport to open the sidebar and click \"Start MCP Server\" in the BlenderMCP tab (defaults to localhost:9876).",
+      "desc-zh": "Blender 3D 建模 MCP，让任意 LLM 通过自然语言驱动 Blender 完成建模、场景创建与操控。安装后还需启用 Blender 插件：uvx blender-mcp install-addon，在 Edit → Preferences → Add-ons 勾选 Interface: Blender MCP，再到 3D 视口按 N 打开侧栏，BlenderMCP 标签页点击 Start MCP Server（默认 localhost:9876）。",
       "icon-link": "https://avatars.githubusercontent.com/ahujasid",
       "repo": "https://github.com/ahujasid/blender-mcp",
       "mcpServers": {
@@ -18,7 +19,8 @@
     },
     {
       "name": "chrome-devtools",
-      "desc": "Chrome DevTools MCP，提供网页性能分析、调试与自动化诊断能力。",
+      "desc": "Chrome DevTools MCP that provides web performance analysis, debugging, and automated diagnostics capabilities.",
+      "desc-zh": "Chrome DevTools MCP，提供网页性能分析、调试与自动化诊断能力。",
       "icon-link": "https://avatars.githubusercontent.com/u/11260967?v=4",
       "repo": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
       "mcpServers": {
@@ -33,7 +35,8 @@
     },
     {
       "name": "markitdown",
-      "desc": "MarkItDown MCP，将 Office/PDF/HTML 等多种文件转换为 Markdown 文本。",
+      "desc": "MarkItDown MCP that converts various file formats such as Office/PDF/HTML into Markdown text.",
+      "desc-zh": "MarkItDown MCP，将 Office/PDF/HTML 等多种文件转换为 Markdown 文本。",
       "icon-link": "https://avatars.githubusercontent.com/u/6154722?v=4",
       "repo": "https://github.com/microsoft/markitdown",
       "mcpServers": {
@@ -47,7 +50,8 @@
     },
     {
       "name": "playwright",
-      "desc": "浏览器自动化 MCP，提供网页截图、交互与测试能力。",
+      "desc": "Browser automation MCP that provides web page screenshot, interaction, and testing capabilities.",
+      "desc-zh": "浏览器自动化 MCP，提供网页截图、交互与测试能力。",
       "icon-link": "https://avatars.githubusercontent.com/u/6154722?v=4",
       "repo": "https://github.com/microsoft/playwright-mcp",
       "mcpServers": {
@@ -61,7 +65,8 @@
     },
     {
       "name": "tavily-remote-mcp",
-      "desc": "Tavily 搜索 MCP（远程版），为 AI 提供联网搜索与深度研究 API 能力。安装后需将 <your-api-key> 替换为你的 Tavily API Key。",
+      "desc": "Tavily Search MCP (remote edition) that provides web search and deep-research API capabilities for AI. After installation, replace <your-api-key> with your own Tavily API key.",
+      "desc-zh": "Tavily 搜索 MCP（远程版），为 AI 提供联网搜索与深度研究 API 能力。安装后需将 <your-api-key> 替换为你的 Tavily API Key。",
       "icon-link": "https://avatars.githubusercontent.com/u/170207473?v=4",
       "repo": "https://github.com/tavily-ai/tavily-mcp",
       "mcpServers": {
@@ -78,7 +83,8 @@
     },
     {
       "name": "tdx",
-      "desc": "通达信（TDX）行情数据 MCP，直连通达信行情服务器，提供 A 股实时行情、K 线、分时、排行榜、F10 与技术指标等工具。",
+      "desc": "TDX (Tongdaxin) market data MCP that connects directly to TDX quote servers, offering A-share real-time quotes, K-line, intraday, rankings, F10, technical indicators, and more.",
+      "desc-zh": "通达信（TDX）行情数据 MCP，直连通达信行情服务器，提供 A 股实时行情、K 线、分时、排行榜、F10 与技术指标等工具。",
       "icon-link": "https://avatars.githubusercontent.com/LisonEvf",
       "repo": "https://github.com/LisonEvf/tdx_mcp",
       "mcpServers": {
