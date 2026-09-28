@@ -28,7 +28,10 @@
           "command": "npx",
           "args": [
             "-y",
-            "chrome-devtools-mcp@latest"
+            "chrome-devtools-mcp@latest",
+            "--browser-url=http://127.0.0.1:9222",
+            "--blocked-url-pattern=http://localhost:8000/*",
+            "--blocked-url-pattern=http://localhost:3000/*"
           ]
         }
       }
